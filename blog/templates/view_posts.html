@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+<!--s-->
+{% block title %}Blog Posts{% endblock %} {% block content %}
+<h2>All Blog Posts</h2>
+
+<form method="get">
+  <input type="text" name="q" placeholder="Search posts by title..." />
+</form>
+
+<hr />
+
+{% for post in posts %}
+<article>
+  <h3>
+    <a href="{% url 'single_post' post.slug %}"> {{ post.title }} </a>
+  </h3>
+  <p>
+    <small>By {{ post.author }} · {{ post.created_date|date:"M d, Y" }}</small>
+  </p>
+  <p>{{ post.content|truncatewords:25 }}</p>
+  <a class="btn" href="{% url 'single_post' post.slug %}">Read More</a>
+  <hr />
+</article>
+{% empty %}
+<p>No blog posts available.</p>
+{% endfor %} {% endblock %}
