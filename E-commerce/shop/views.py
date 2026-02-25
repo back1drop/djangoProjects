@@ -48,3 +48,23 @@ def update_cart(request,pk):
         cart.pop(str(pk))
     request.session['cart']=cart
     return redirect('cart')
+
+def checkout(request):
+    cart=request.session.get('cart',{})
+    if not cart:
+        return redirect('product_list')
+    order=Order.objects.create(user=request.user)
+    for product_id,quantity in cart.items():
+        product=Product.objects.get(id=product_id)
+        OrderItem.objects.create(
+            order=order,
+            product=product,
+            quantity=quantity
+        )
+    request.session['cart']={}
+    return redirect('order_history')
+
+
+def order_history(request):
+    orders = Order.objects.filter(user=request.user, completed=False)
+    return render(request, 'order_history.html', {'orders': orders})

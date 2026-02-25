@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Order History</title>
+  </head>
+  <body>
+    <h1>Your Orders</h1>
+
+    {% for order in orders %}
+    <div>
+      <h3>Order #{{ order.id }}</h3>
+      <p>Date: {{ order.created_at }}</p>
+    </div>
+    {% endfor %}
+
+    <a href="{% url 'product_list' %}">Back to Shop</a>
+  </body>
+</html>
