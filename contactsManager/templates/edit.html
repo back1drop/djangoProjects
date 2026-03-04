@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Edit Contact</title>
+  </head>
+  <body>
+    <h2>✏ Edit Contact</h2>
+
+    <form method="POST">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">Update</button>
+    </form>
+
+    <br />
+    <a href="{% url 'contacts_list' %}">⬅ Back to Contacts</a>
+  </body>
+</html>

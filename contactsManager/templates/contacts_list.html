@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Contact List</title>
+  </head>
+  <body>
+    <h1>📇 Contact Manager</h1>
+
+    <!-- Search Form -->
+    <form method="GET">
+      <input
+        type="text"
+        name="search"
+        placeholder="Search contacts..."
+        value="{{ search_query }}"
+      />
+      <button type="submit">Search</button>
+    </form>
+
+    <br />
+    <a href="{% url 'add_contact' %}">➕ Add Contact</a>
+
+    <hr />
+
+    <!-- Contact List -->
+    {% for contact in page_obj %}
+    <div>
+      <strong>{{ contact.name }}</strong><br />
+      Phone: {{ contact.phone }}<br />
+      Email: {{ contact.email|default:"Not Provided" }}<br />
+
+      <a href="{% url 'edit_contact' contact.id %}">Edit</a> |
+      <a href="{% url 'delete_contact' contact.id %}">Delete</a>
+    </div>
+    <hr />
+    {% empty %}
+    <p>No contacts found.</p>
+    {% endfor %}
+
+    <!-- Pagination -->
+    <div>
+      {% if page_obj.has_previous %}
+      <a href="?page=1&search={{ search_query }}">First</a>
+      <a
+        href="?page={{ page_obj.previous_page_number }}&search={{ search_query }}"
+        >Previous</a
+      >
+      {% endif %}
+
+      <span
+        >Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span
+      >
+
+      {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}&search={{ search_query }}"
+        >Next</a
+      >
+      <a
+        href="?page={{ page_obj.paginator.num_pages }}&search={{ search_query }}"
+        >Last</a
+      >
+      {% endif %}
+    </div>
+  </body>
+</html>
